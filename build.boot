@@ -7,14 +7,12 @@
                   [pandect "0.5.2"]])
 
 (require '[adzerk.bootlaces :refer :all])
-(require '[boot-s3.s3-sync :refer :all])
-
 
 (def +version+ "0.1.0-SNAPSHOT")
 (bootlaces! +version+)
 
 (task-options!
-  pom {:project 'boot-s3
+  pom {:project 'hashobject/boot-s3
        :version +version+
        :description "Boot task for syncing a local directory to an S3 bucket"
        :url         "https://github.com/hashobject/boot-s3"

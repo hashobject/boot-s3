@@ -1,11 +1,11 @@
 (set-env!
   :dependencies '[[org.clojure/clojure "1.6.0"]])
 
-(ns boot-s3.s3-sync
+(ns hashobject.boot-s3.s3-sync
   {:boot/export-tasks true}
-  (:require [boot.core    :as boot]
-            [boot.util    :as u]
-            [boot-s3.core :as s3]))
+  (:require [boot.core               :as boot]
+            [boot.util               :as u]
+            [hashobject.boot-s3.core :as s3]))
 
 
 (def ^:private

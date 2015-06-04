@@ -1,4 +1,4 @@
-(ns boot-s3.fs
+(ns hashobject.boot-s3.fs
   (:require [pandect.core :as p])
   (:import [java.io File]
            [java.util.regex Pattern]))

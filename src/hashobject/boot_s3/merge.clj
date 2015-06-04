@@ -1,4 +1,4 @@
-(ns boot-s3.merge
+(ns hashobject.boot-s3.merge
   (:require [clojure.set :as s]))
 
 (defn generate-deltas [local-file-details s3-file-details]

@@ -1,7 +1,7 @@
-(ns boot-s3.core
-  (:require [boot-s3.fs :as fs]
-            [boot-s3.s3 :as s3]
-            [boot-s3.merge :as m]))
+(ns hashobject.boot-s3.core
+  (:require [hashobject.boot-s3.fs :as fs]
+            [hashobject.boot-s3.s3 :as s3]
+            [hashobject.boot-s3.merge :as m]))
 
 (declare capture-file-details)
 (declare calculate-deltas)

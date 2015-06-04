@@ -1,4 +1,4 @@
-(ns boot-s3.s3
+(ns hashobject.boot-s3.s3
   (:require [aws.sdk.s3 :as s3]))
 
 (defn get-file-details-for
