@@ -2,6 +2,7 @@
 
 [Boot](http://boot-clj.com/) task to sync local directory with AWS S3.
 Most of the code borrowed from [lein-s3-sync](https://github.com/kanej/lein-s3-sync).
+This task works in the efficient way and uploads only new or changed files to the s3.
 
 ## Install
 
