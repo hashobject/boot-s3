@@ -14,7 +14,7 @@
 (task-options!
   pom {:project 'hashobject/boot-s3
        :version +version+
-       :description "Boot task for syncing a local directory with AWS S3 bucket"
+       :description "Boot task for syncing local directory with AWS S3 bucket"
        :url         "https://github.com/hashobject/boot-s3"
        :scm         {:url "https://github.com/hashobject/boot-s3"}
        :license     {"name" "Eclipse Public License"
