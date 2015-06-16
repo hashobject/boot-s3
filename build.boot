@@ -12,6 +12,9 @@
 (bootlaces! +version+)
 
 (task-options!
+  push {
+    :ensure-clean false
+  }
   pom {:project 'hashobject/boot-s3
        :version +version+
        :description "Boot task for syncing local directory with AWS S3 bucket"
@@ -21,12 +24,16 @@
                      "url"  "http://www.eclipse.org/legal/epl-v10.html"}})
 
 
-(deftask install-locally
-  "Install locally"
-  []
-  (comp (pom) (jar) (install)))
-
 (deftask release-snapshot
   "Release snapshot"
   []
-  (comp (pom) (jar) (push-snapshot)))
+  (comp (build-jar) (push-snapshot)))
+
+(deftask dev
+  "Dev process"
+  []
+  (comp
+    (watch)
+    (pom)
+    (jar)
+    (install)))

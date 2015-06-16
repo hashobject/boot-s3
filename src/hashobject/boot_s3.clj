@@ -1,6 +1,3 @@
-(set-env!
-  :dependencies '[[org.clojure/clojure "1.6.0"]])
-
 (ns hashobject.boot-s3
   {:boot/export-tasks true}
   (:require [boot.core               :as boot]
