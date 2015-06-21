@@ -10,7 +10,7 @@
 (declare print-delta-summary)
 (declare print-sync-complete-message)
 
-(def default-options {:public false})
+(def default-options {:public true})
 
 (defn sync-to-s3
   "Syncronise the local directory 'dir-path' to the S3 bucket 'bucket-name'."

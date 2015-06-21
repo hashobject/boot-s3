@@ -6,7 +6,7 @@
 
 
 (def ^:private
-  +defaults+ {:source "resources/public"
+  +defaults+ {:source "target/public"
               :options {}})
 
 (boot/deftask s3-sync
