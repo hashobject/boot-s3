@@ -16,7 +16,6 @@
   {:path (:key response) :md5 (:etag response)} )
 
 (defn analyse-s3-bucket [cred bucket-name file-paths]
-
   (let [s3-lookup (partial get-file-details-for cred bucket-name)
         bucket-sync-state {:bucket-name bucket-name
                            :remote-file-details []}]
