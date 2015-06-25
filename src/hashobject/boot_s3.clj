@@ -20,7 +20,7 @@
     (fn handler [fileset]
       (let [options (merge +defaults+ *opts*)
             cred (select-keys options [:access-key :secret-key])]
+        (next-task fileset)
         (u/info "Start upload to AWS S3.\n")
         (s3/sync-to-s3 cred (:source options) (:bucket options) (:options options))
-        (u/info "Uploaded to AWS S3.\n")
-        (next-task fileset)))))
+        (u/info "Uploaded to AWS S3.\n")))))
