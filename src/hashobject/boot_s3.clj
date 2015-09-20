@@ -6,12 +6,12 @@
 
 
 (def ^:private
-  +defaults+ {:source "target/public"
+  +defaults+ {:source "public"
               :options {}})
 
 (boot/deftask s3-sync
   "Sync local directory to AWS S3"
-  [s source     PATH       str       "Source directory to upload to s3"
+  [s source     PATH       str       "subdirectory in :target-path to upload to s3"
    b bucket     BUCKET     str       "s3 bucket name"
    a access-key ACCESS_KEY str       "s3 access key"
    k secret-key SECRET     str       "s3 secret key"
@@ -19,8 +19,9 @@
   (fn middleware [next-task]
     (fn handler [fileset]
       (let [options (merge +defaults+ *opts*)
-            cred (select-keys options [:access-key :secret-key])]
+            cred    (select-keys options [:access-key :secret-key])
+            source  (str (boot/get-env :target-path) "/" (:source options))]
         (next-task fileset)
         (u/info "Start upload to AWS S3.\n")
-        (s3/sync-to-s3 cred (:source options) (:bucket options) (:options options))
+        (s3/sync-to-s3 cred source (:bucket options) (:options options))
         (u/info "Uploaded to AWS S3.\n")))))
