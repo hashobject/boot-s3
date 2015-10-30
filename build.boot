@@ -2,7 +2,7 @@
   :source-paths #{"src"}
   :resource-paths #{"resources"}
   :dependencies '[[org.clojure/clojure "1.7.0"]
-                  [adzerk/bootlaces "0.1.12" :scope "test"]
+                  [adzerk/bootlaces "0.1.13" :scope "test"]
                   [clj-aws-s3 "0.3.10"]
                   [pandect "0.5.4"]])
 
