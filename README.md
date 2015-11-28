@@ -1,6 +1,7 @@
 # boot-s3
 
-[![Dependencies Status](http://jarkeeper.com/hashobject/boot-s3/status.svg)](http://jarkeeper.com/hashobject/boot-s3)
+[![Dependencies Status](https://jarkeeper.com/hashobject/boot-s3/status.svg)](https://jarkeeper.com/hashobject/boot-s3)
+[![Downloads](https://jarkeeper.com/hashobject/boot-s3/downloads.svg)](https://jarkeeper.com/hashobject/boot-s3)
 
 [Boot](http://boot-clj.com/) task to sync local directory with AWS S3.
 Most of the code borrowed from [lein-s3-sync](https://github.com/kanej/lein-s3-sync).
