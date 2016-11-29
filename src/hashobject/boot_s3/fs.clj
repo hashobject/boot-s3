@@ -31,6 +31,5 @@
 (defn- path->file-details [root-path tmp-file]
   (let [file-path (:path tmp-file)
         rel-path (relative-path root-path file-path)
-        file (boot/tmp-file tmp-file)
-        md5 (p/md5 file)]
-    {:path rel-path :md5 md5 :file file}))
+        md5 (p/md5 (boot/tmp-file tmp-file))]
+    {:path rel-path :md5 md5 :tmp-file tmp-file}))

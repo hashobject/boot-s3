@@ -7,15 +7,19 @@
 
 (def ^:private
   +defaults+ {:source "public"
-              :options {}})
+              :options {:permissions [[:all-users :read]]}})
 
 (boot/deftask s3-sync
-  "Sync local directory to AWS S3"
+  "Sync local directory to AWS S3
+
+  The `options` parameter takes a map with two optional keys:
+   - `:metadata` a map with metadata to set on the objects, passed through to clj-aws-s3
+   - `:permissions` a seq of 2-tuples of `[grantee permission]`, passed through to clj-aws-s3"
   [s source     PATH       str       "subdirectory in :target-path to upload to s3"
    b bucket     BUCKET     str       "s3 bucket name"
    a access-key ACCESS_KEY str       "s3 access key"
    k secret-key SECRET     str       "s3 secret key"
-   o options    OPTIONS    {str str} "Extra options set for each s3 file"]
+   o options    OPTIONS    edn       "metadata and permissions to apply to all synced objects"]
   (let [options (merge +defaults+ *opts*)
         cred    (select-keys options [:access-key :secret-key])]
     (boot/with-post-wrap fileset

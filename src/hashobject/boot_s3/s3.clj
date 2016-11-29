@@ -27,9 +27,6 @@
            (remove nil?)
            (set)))))
 
-(defn make-file-public [cred bucket-name key]
-  (let [grant (s3/grant :all-users :read)]
-    (s3/update-object-acl cred bucket-name key grant)))
-
-(defn put-file [cred bucket-name key file]
-  (s3/put-object cred bucket-name key file))
+(defn put-file [cred bucket-name key file metadata permissions]
+  (let [grants (map #(apply s3/grant %) permissions)]
+    (apply s3/put-object cred bucket-name key file metadata grants)))
