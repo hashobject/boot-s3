@@ -16,12 +16,11 @@
    a access-key ACCESS_KEY str       "s3 access key"
    k secret-key SECRET     str       "s3 secret key"
    o options    OPTIONS    {str str} "Extra options set for each s3 file"]
-  (fn middleware [next-task]
-    (fn handler [fileset]
-      (let [options (merge +defaults+ *opts*)
-            cred    (select-keys options [:access-key :secret-key])
-            source  (str (boot/get-env :target-path) "/" (:source options))]
-        (next-task fileset)
+  (let [options (merge +defaults+ *opts*)
+        cred    (select-keys options [:access-key :secret-key])]
+    (boot/with-post-wrap fileset
+      (let [files (->> (boot/output-files fileset)
+                       (boot/by-re [(re-pattern (str "^" (:source options)))]))]
         (u/info "Start upload to AWS S3.\n")
-        (s3/sync-to-s3 cred source (:bucket options) (:options options))
+        (s3/sync-to-s3 cred files (:source options) (:bucket options) (:options options))
         (u/info "Uploaded to AWS S3.\n")))))

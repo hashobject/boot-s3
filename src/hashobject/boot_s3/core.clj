@@ -14,14 +14,14 @@
 
 (defn sync-to-s3
   "Syncronise the local directory 'dir-path' to the S3 bucket 'bucket-name'."
-  ([aws-credentials dir-path bucket-name]
+  ([aws-credentials files dir-path bucket-name]
    (sync-to-s3 aws-credentials dir-path bucket-name {}))
-  ([aws-credentials dir-path bucket-name options]
-    (let [absolute-dir-path (fs/path->absolute-path dir-path)
-          sync-state {:aws-credentials aws-credentials
-                      :local-dir absolute-dir-path
-                      :bucket-name bucket-name
-                      :options (merge default-options options)}]
+  ([aws-credentials files dir-path bucket-name options]
+   (let [sync-state {:aws-credentials aws-credentials
+                     :files files
+                     :dir-path dir-path
+                     :bucket-name bucket-name
+                     :options (merge default-options options)}]
       (-> sync-state
         (capture-file-details)
         (calculate-deltas)
@@ -36,8 +36,8 @@
 (defn- capture-file-details
   "Pull the local directories file details and the S3 buckets file details
    and associate them with the sync-state."
-  [{:keys [aws-credentials local-dir bucket-name] :as sync-state}]
-  (let [local-file-details (fs/analyse-local-directory local-dir)
+  [{:keys [aws-credentials dir-path files bucket-name] :as sync-state}]
+  (let [local-file-details (fs/analyse-local-files dir-path files)
         file-paths (map :path local-file-details)
         remote-file-details (s3/analyse-s3-bucket aws-credentials bucket-name file-paths)]
     (merge sync-state {:local-file-details local-file-details
@@ -53,23 +53,23 @@
 
 (defn- push-deltas-to-s3
   "Pushes the local files named in the delta list to S3."
-  [{:keys [errors aws-credentials local-dir bucket-name deltas options] :as sync-state}]
+  [{:keys [errors aws-credentials bucket-name deltas options] :as sync-state}]
   (when (empty? errors)
     (loop [deltas deltas]
       (if (not (empty? deltas))
-        (let [[op {rel-path :path}] (first deltas)]
-          (print "  " rel-path "uploading ...")
+        (let [[_ {:keys [path file]}] (first deltas)]
+          (print "  " path "uploading ...")
 
           (s3/put-file
             aws-credentials
             bucket-name
-            rel-path
-            (fs/combine-path local-dir rel-path))
+            path
+            file)
 
           (when (:public options)
-            (s3/make-file-public aws-credentials bucket-name rel-path))
+            (s3/make-file-public aws-credentials bucket-name path))
 
-          (println "\r  " rel-path "done." padding)
+          (println "\r  " path "done." padding)
           (recur (rest deltas))))))
   sync-state)
 
