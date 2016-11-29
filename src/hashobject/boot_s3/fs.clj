@@ -14,9 +14,8 @@
    under the directory."
   [dir-path files]
   (->> files
-       (remove #(.isDirectory (boot/tmp-file %)))
        (map (partial path->file-details dir-path))
-       (set)))
+       set))
 
 ;; Private Helper Functions
 
