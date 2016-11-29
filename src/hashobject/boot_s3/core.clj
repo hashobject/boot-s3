@@ -59,7 +59,7 @@
         (let [{:keys [path tmp-file]} (first deltas)
               {:keys [metadata permissions]} (merge-with merge
                                                          options
-                                                         (:hashobject/boot-s3 (meta tmp-file)))]
+                                                         (:hashobject/boot-s3 tmp-file))]
           (print "  " path "uploading ...")
 
           (s3/put-file
