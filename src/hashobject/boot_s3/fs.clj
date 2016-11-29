@@ -6,7 +6,6 @@
 
 (declare relative-path)
 (declare path->file-details)
-(declare path->absolute-path)
 
 (defn analyse-local-files
   "Analyse a local directory returnings a set
@@ -18,9 +17,6 @@
        (remove #(.isDirectory (boot/tmp-file %)))
        (map (partial path->file-details dir-path))
        (set)))
-
-(defn path->absolute-path [path]
-  (.getAbsolutePath (clojure.java.io/file path)))
 
 ;; Private Helper Functions
 
