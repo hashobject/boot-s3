@@ -1,5 +1,6 @@
 (ns hashobject.boot-s3.core
-  (:require [hashobject.boot-s3.fs :as fs]
+  (:require [boot.core :as boot]
+            [hashobject.boot-s3.fs :as fs]
             [hashobject.boot-s3.s3 :as s3]
             [hashobject.boot-s3.merge :as m]))
 
@@ -10,8 +11,6 @@
 (declare print-delta-summary)
 (declare print-sync-complete-message)
 
-(def default-options {:public true})
-
 (defn sync-to-s3
   "Syncronise the local directory 'dir-path' to the S3 bucket 'bucket-name'."
   ([aws-credentials files dir-path bucket-name]
@@ -21,7 +20,7 @@
                      :files files
                      :dir-path dir-path
                      :bucket-name bucket-name
-                     :options (merge default-options options)}]
+                     :options options}]
       (-> sync-state
         (capture-file-details)
         (calculate-deltas)
@@ -57,17 +56,19 @@
   (when (empty? errors)
     (loop [deltas deltas]
       (if (not (empty? deltas))
-        (let [[_ {:keys [path file]}] (first deltas)]
+        (let [{:keys [path tmp-file]} (first deltas)
+              {:keys [metadata permissions]} (merge-with merge
+                                                         options
+                                                         (:hashobject/boot-s3 tmp-file))]
           (print "  " path "uploading ...")
 
           (s3/put-file
             aws-credentials
             bucket-name
             path
-            file)
-
-          (when (:public options)
-            (s3/make-file-public aws-credentials bucket-name path))
+            (boot/tmp-file tmp-file)
+            metadata
+            permissions)
 
           (println "\r  " path "done." padding)
           (recur (rest deltas))))))
