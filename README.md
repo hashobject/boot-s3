@@ -27,11 +27,12 @@ Sync local directory to AWS S3
 
 Options:
   -h, --help                   Print this help info.
-  -s, --source PATH            Set source directory to upload to s3 to PATH.
-  -b, --bucket BUCKET          Set s3 bucket name to BUCKET.
-  -a, --access-key ACCESS_KEY  Set s3 access key to ACCESS_KEY.
-  -k, --secret-key SECRET      Set s3 secret key to SECRET.
-  -o, --options OPTIONS        Conj OPTIONS onto extra option set for each s3 file
+  -s, --source PATH            PATH sets subdirectory in :target-path to upload to s3.
+  -b, --bucket BUCKET          BUCKET sets s3 bucket name.
+  -a, --access-key ACCESS_KEY  ACCESS_KEY sets s3 access key.
+  -k, --secret-key SECRET      SECRET sets s3 secret key.
+  -m, --metadata META          Conj META onto a map with metadata to set on the objects, passed through to clj-aws-s3
+  -p, --permissions PERMS      Conj PERMS onto a seq of 2-tuples of `[grantee permission]`, passed through to clj-aws-s3
 ```
 
 ## Contributions
