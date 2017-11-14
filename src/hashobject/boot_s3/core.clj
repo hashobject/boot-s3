@@ -14,19 +14,24 @@
 (defn sync-to-s3
   "Syncronise the local directory 'dir-path' to the S3 bucket 'bucket-name'."
   ([aws-credentials files dir-path bucket-name]
-   (sync-to-s3 aws-credentials dir-path bucket-name {}))
+   (sync-to-s3 aws-credentials dir-path bucket-name {} false))
   ([aws-credentials files dir-path bucket-name options]
-   (let [sync-state {:aws-credentials aws-credentials
-                     :files files
-                     :dir-path dir-path
-                     :bucket-name bucket-name
-                     :options options}]
+   (sync-to-s3 aws-credentials dir-path bucket-name options false))
+  ([aws-credentials files dir-path bucket-name options force]
+   (let [sync-state* {:aws-credentials aws-credentials
+                      :files files
+                      :dir-path dir-path
+                      :bucket-name bucket-name
+                      :options options}
+         sync-state (if force
+                      (assoc sync-state* :deltas (fs/analyse-local-files dir-path files))
+                      (-> sync-state*
+                          capture-file-details
+                          calculate-deltas))]
       (-> sync-state
-        (capture-file-details)
-        (calculate-deltas)
-        (print-delta-summary)
-        (push-deltas-to-s3)
-        (print-sync-complete-message)))))
+          print-delta-summary
+          push-deltas-to-s3
+          print-sync-complete-message))))
 
 ;; Private functions
 

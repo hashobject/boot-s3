@@ -33,6 +33,7 @@ Options:
   -k, --secret-key SECRET      SECRET sets s3 secret key.
   -m, --metadata META          Conj META onto a map with metadata to set on the objects, passed through to clj-aws-s3
   -p, --permissions PERMS      Conj PERMS onto a seq of 2-tuples of `[grantee permission]`, passed through to clj-aws-s3
+  -f, --force                  Set to `true` to force upload of all objects
 ```
 
 ## Contributions
