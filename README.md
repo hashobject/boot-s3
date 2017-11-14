@@ -10,7 +10,7 @@ This task works in the efficient way and uploads only new or changed files to th
 ## Install
 
 ```
-[hashobject/boot-s3 "0.1.2-SNAPSHOT"]
+[hashobject/boot-s3 "0.1.3-SNAPSHOT"]
 ```
 
 ## Usage
