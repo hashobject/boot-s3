@@ -1,6 +1,6 @@
 (set-env!
   :source-paths #{"src"}
-  :resource-paths #{"resources"}
+  :resource-paths #{"src"}
   :dependencies '[[org.clojure/clojure "1.8.0"]
                   [adzerk/bootlaces "0.1.13" :scope "test"]
                   [clj-aws-s3 "0.3.10"]
@@ -8,7 +8,7 @@
 
 (require '[adzerk.bootlaces :refer :all])
 
-(def +version+ "0.1.2-SNAPSHOT")
+(def +version+ "0.1.3-SNAPSHOT")
 (bootlaces! +version+)
 
 (task-options!
